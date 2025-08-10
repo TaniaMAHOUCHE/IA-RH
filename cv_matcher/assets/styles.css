@@ -1,0 +1,32 @@
+.badges-container {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px !important;
+  align-items: center !important;
+}
+
+.tag-badge {
+  background-color: #0078D4;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-size: 0.9rem ;
+  font-weight: 600;
+  user-select: none;
+  cursor: default;
+  white-space: nowrap;
+  margin: 2px 0;
+}
+
+div[data-baseweb="slider"] > div > div > div > div > div {
+    background: #1f77b4 !important; 
+}
+
+div[data-baseweb="slider"] input[type="range"]::-webkit-slider-thumb {
+    background: #1f77b4 !important; 
+}
+
+/* html, body, .block-container {
+  background-color: #9bb3c5;
+  color: black;
+} */
