@@ -6,19 +6,23 @@ from services.storage import MongoDB
 from config import SCORE_THRESHOLD
 from PyPDF2 import PdfReader
 
+# Initialisation des services
 translator = Translator()
 matcher = Matcher()
 db = MongoDB()
 
+# Configuration de la page
 st.set_page_config(page_title="CV Matcher", layout="wide")
 
+# Style custom
 with open("static/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 # Sidebar navigation
-tabs = ["Annonces", "Dépôt CV", "Matching", "Dashboard"]
+tabs = ["📋 Annonces", "📄 Dépôt CV", "🎯 Matching", "📊 Dashboard"]
 page = st.sidebar.radio("Navigation", tabs)
 
+# Utilitaire de lecture PDF
 def read_pdf(file):
     reader = PdfReader(file)
     text = ""
@@ -27,6 +31,9 @@ def read_pdf(file):
             text += page.extract_text() + "\n"
     return text.strip()
 
+# ============================
+# PAGE 1 : GESTION ANNONCES
+# ============================
 if page == "📋 Annonces":
     st.header("Gestion des annonces")
     titre = st.text_input("Titre du poste")
@@ -57,6 +64,10 @@ if page == "📋 Annonces":
 
                 with st.expander("Voir les informations extraites de l'annonce"):
                     st.json(infos_annonce)
+
+# ============================
+# PAGE 2 : DEPOT CV
+# ============================
 elif page == "📄 Dépôt CV":
     st.header("Dépôt de CV")
     annonces = db.get_annonces()
@@ -124,6 +135,10 @@ elif page == "📄 Dépôt CV":
                                 annonce["_id"], cv_file.name, cv_text, cv_en, infos_cv, scores, False
                             )
                             st.success(f"CV '{cv_file.name}' sauvegardé manuellement")
+
+# ============================
+# PAGE 3 : MATCHING
+# ============================
 elif page == "🎯 Matching":
     st.header("Résultats de matching")
 
@@ -160,6 +175,10 @@ elif page == "🎯 Matching":
                             db.delete_cv(cv["_id"])
                             st.success(f"CV '{cv['filename']}' supprimé ✅")
                             st.experimental_rerun()
+
+# ============================
+# PAGE 4 : DASHBOARD
+# ============================
 elif page == "📊 Dashboard":
     st.header("Dashboard")
     st.metric("Annonces actives", len(db.get_annonces()))
