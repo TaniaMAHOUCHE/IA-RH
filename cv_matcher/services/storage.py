@@ -38,7 +38,7 @@ class MongoDB:
         if self.db.cvs.find_one({"annonce_id": oid, "filename": filename}):
             return None  
 
-        if isinstance(auto, (np.bool_, np.bool)):
+        if isinstance(auto, (np.bool_, bool)):
             auto = bool(auto)
 
         doc = {
